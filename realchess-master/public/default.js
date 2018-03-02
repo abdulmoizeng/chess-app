@@ -33,7 +33,26 @@
       socket.on('gameadd', function(msg) {
       });
         socket.on('draw', function(msg) {
+            $("#mess").text( "you have been offered a draw by "+ username );
 
+            $('#mess').append('<br> </br><button id="accept" data-role="button" data-inline="true" data-mini="true" data-theme="b">Accept</button>');
+            $('#mess').append('<br> </br><button id= "decline" data-role="button" data-inline="true" data-mini="true" data-theme="b">decline</button>');
+
+            $("#accept").click(function(){
+
+                alert('you accpeted a draw');
+                socket.emit('resign', {userId: username, gameId: serverGame.id});
+
+                socket.emit('login', username);
+                $('#page-game').hide();
+                $('#page-lobby').show();
+
+            });
+
+            $("#decline").click(function(){
+
+                alert('you declined');
+            });
       });
       
       socket.on('resign', function(msg) {
@@ -102,35 +121,10 @@
         $('#page-game').hide();
         $('#page-lobby').show();
       });
-      
 
-$(document).ready(function(){
-  $("#draw").click(function(){
-socket.emit('draw', username);
-  $("#mess").text( "you have been offered a draw by "+ username );
-   
-   $('#mess').append('<br> </br><button id="accept" data-role="button" data-inline="true" data-mini="true" data-theme="b">Accept</button>');
-    $('#mess').append('<br> </br><button id= "decline" data-role="button" data-inline="true" data-mini="true" data-theme="b">decline</button>');
-
-    $("#accept").click(function(){
-
-   alert('you accpeted a draw');
-     socket.emit('resign', {userId: username, gameId: serverGame.id});
-        
-        socket.emit('login', username);
-        $('#page-game').hide();
-        $('#page-lobby').show();
-   
+  $("#draw").on('click', function(){
+    socket.emit('draw', username);
   });
-
-     $("#decline").click(function(){
-
-   alert('you declined');
-  });
-});
-
-
-}); 
 $(function() {
   var FADE_TIME = 150; // ms
   var TYPING_TIMER_LENGTH = 400; // ms

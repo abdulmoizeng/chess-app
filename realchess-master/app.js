@@ -175,8 +175,6 @@ io.on('connection', function(socket) {
       socket.on('draw', function(msg) {
      
 
-          console.log('got a draw offer from ' + socket.userId + ' --> ' + opponentId);
-        
         socket.broadcast.emit('draw', socket.userId);
         socket.broadcast.emit('draw', opponentId);
        
